@@ -1,158 +1,190 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cosmetic Packaging Form</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 700px;
+    margin: 20px auto;
+    line-height: 1.5;
+  }
+  h3 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+  }
+  .entry {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  .field {
+    margin: 5px 0;
+  }
+</style>
+</head>
 <body>
 
-<form method="POST" action="http://localhost:5678/webhook-test/https://github.com/NatureCastleProg/n8n.git">
+<form method="POST" action="http://localhost:5678/webhook/Form n8n SKU generation">
 
-  <!-- ================= STANDARD ================= -->
+  <!-- ===== STANDARD ===== -->
+  <div class="entry">
+    <h3>Standard</h3>
+    <div class="field">
+      <label>
+        <input type="checkbox" class="enableEntry" data-target="standardFields" name="standard_enabled" value="true">
+        Enable Standard
+      </label>
+    </div>
 
-  <h3>Standard</h3>
+    <div id="standardFields" style="display:none; margin-left:20px;">
+      <div class="field">
+        <label>
+          Has paper box: <input type="checkbox" name="standard_hasPaperBox" value="true">
+        </label>
+      </div>
 
-  <label>
-    <input type="checkbox" name="standard_enabled" value="true">
-    Use Standard
-  </label>
-  <br><br>
+      <div class="field">
+        Volume: <input type="text" name="standard_volume">
+      </div>
 
-  <label>
-    <input type="checkbox" id="standardBox" name="standard_hasPaperBox" value="true">
-    Has paper box
-  </label>
-  <br><br>
+      <div class="field">
+        Packaging:
+        <select name="standard_packaging">
+          <option value="">-- select --</option>
+          <option value="dropper_bottle">Dropper bottle</option>
+          <option value="pump_bottle">Pump bottle</option>
+          <option value="cream_jar">Cream jar</option>
+          <option value="spray_bottle">Spray bottle</option>
+          <option value="airless_pump">Airless pump</option>
+          <option value="airless_jar">Airless jar</option>
+          <option value="aluminium_pouch">Aluminium pouch</option>
+          <option value="lipstick">Lipstick</option>
+          <option value="eyeshadow">Eyeshadow</option>
+          <option value="ampule">Ampule</option>
+        </select>
+      </div>
 
-  <div id="standardFields" style="display:none;">
-    <label>
-      Volume:
-      <input type="text" name="standard_volume">
-    </label>
-    <br><br>
+      <div class="field">
+        Supplier: <input type="text" name="standard_supplier">
+      </div>
 
-    <label>
-      Packaging:
-      <select name="standard_packaging">
-        <option value="">-- select --</option>
-        <option value="dropper_bottle">Dropper bottle</option>
-        <option value="cream_jar">Cream jar</option>
-        <option value="pump_bottle">Pump bottle</option>
-        <option value="airless_bottle">Airless bottle</option>
-        <option value="roll_on">Roll-on bottle</option>
-        <option value="spray_bottle">Spray bottle</option>
-      </select>
-    </label>
-    <br><br>
+      <div class="field">
+        Price: <input type="text" name="standard_price">
+      </div>
+    </div>
   </div>
 
-  <label>
-    Supplier:
-    <input type="text" name="standard_supplier">
-  </label>
+  <!-- ===== MINI ===== -->
+  <div class="entry">
+    <h3>Mini</h3>
+    <div class="field">
+      <label>
+        <input type="checkbox" class="enableEntry" data-target="miniFields" name="mini_enabled" value="true">
+        Enable Mini
+      </label>
+    </div>
 
-  <hr>
+    <div id="miniFields" style="display:none; margin-left:20px;">
+      <div class="field">
+        <label>
+          Has paper box: <input type="checkbox" name="mini_hasPaperBox" value="true">
+        </label>
+      </div>
 
-  <!-- ================= MINI ================= -->
+      <div class="field">
+        Volume: <input type="text" name="mini_volume">
+      </div>
 
-  <h3>Mini</h3>
+      <div class="field">
+        Packaging:
+        <select name="mini_packaging">
+          <option value="">-- select --</option>
+          <option value="dropper_bottle">Dropper bottle</option>
+          <option value="pump_bottle">Pump bottle</option>
+          <option value="cream_jar">Cream jar</option>
+          <option value="spray_bottle">Spray bottle</option>
+          <option value="airless_pump">Airless pump</option>
+          <option value="airless_jar">Airless jar</option>
+          <option value="aluminium_pouch">Aluminium pouch</option>
+          <option value="lipstick">Lipstick</option>
+          <option value="eyeshadow">Eyeshadow</option>
+          <option value="ampule">Ampule</option>
+        </select>
+      </div>
 
-  <label>
-    <input type="checkbox" name="mini_enabled" value="true">
-    Use Mini
-  </label>
-  <br><br>
+      <div class="field">
+        Supplier: <input type="text" name="mini_supplier">
+      </div>
 
-  <label>
-    <input type="checkbox" id="miniBox" name="mini_hasPaperBox" value="true">
-    Has paper box
-  </label>
-  <br><br>
-
-  <div id="miniFields" style="display:none;">
-    <label>
-      Volume:
-      <input type="text" name="mini_volume">
-    </label>
-    <br><br>
-
-    <label>
-      Packaging:
-      <select name="mini_packaging">
-        <option value="">-- select --</option>
-        <option value="dropper_bottle">Dropper bottle</option>
-        <option value="cream_jar">Cream jar</option>
-        <option value="pump_bottle">Pump bottle</option>
-        <option value="airless_bottle">Airless bottle</option>
-        <option value="roll_on">Roll-on bottle</option>
-        <option value="spray_bottle">Spray bottle</option>
-      </select>
-    </label>
-    <br><br>
+      <div class="field">
+        Price: <input type="text" name="mini_price">
+      </div>
+    </div>
   </div>
 
-  <label>
-    Supplier:
-    <input type="text" name="mini_supplier">
-  </label>
+  <!-- ===== SAMPLE ===== -->
+  <div class="entry">
+    <h3>Sample</h3>
+    <div class="field">
+      <label>
+        <input type="checkbox" class="enableEntry" data-target="sampleFields" name="sample_enabled" value="true">
+        Enable Sample
+      </label>
+    </div>
 
-  <hr>
+    <div id="sampleFields" style="display:none; margin-left:20px;">
+      <div class="field">
+        <label>
+          Has paper box: <input type="checkbox" name="sample_hasPaperBox" value="true">
+        </label>
+      </div>
 
-  <!-- ================= SAMPLE ================= -->
+      <div class="field">
+        Volume: <input type="text" name="sample_volume">
+      </div>
 
-  <h3>Sample</h3>
+      <div class="field">
+        Packaging:
+        <select name="sample_packaging">
+          <option value="">-- select --</option>
+          <option value="dropper_bottle">Dropper bottle</option>
+          <option value="pump_bottle">Pump bottle</option>
+          <option value="cream_jar">Cream jar</option>
+          <option value="spray_bottle">Spray bottle</option>
+          <option value="airless_pump">Airless pump</option>
+          <option value="airless_jar">Airless jar</option>
+          <option value="aluminium_pouch">Aluminium pouch</option>
+          <option value="lipstick">Lipstick</option>
+          <option value="eyeshadow">Eyeshadow</option>
+          <option value="ampule">Ampule</option>
+        </select>
+      </div>
 
-  <label>
-    <input type="checkbox" name="sample_enabled" value="true">
-    Use Sample
-  </label>
-  <br><br>
+      <div class="field">
+        Supplier: <input type="text" name="sample_supplier">
+      </div>
 
-  <label>
-    <input type="checkbox" id="sampleBox" name="sample_hasPaperBox" value="true">
-    Has paper box
-  </label>
-  <br><br>
-
-  <div id="sampleFields" style="display:none;">
-    <label>
-      Volume:
-      <input type="text" name="sample_volume">
-    </label>
-    <br><br>
-
-    <label>
-      Packaging:
-      <select name="sample_packaging">
-        <option value="">-- select --</option>
-        <option value="dropper_bottle">Dropper bottle</option>
-        <option value="cream_jar">Cream jar</option>
-        <option value="pump_bottle">Pump bottle</option>
-        <option value="airless_bottle">Airless bottle</option>
-        <option value="roll_on">Roll-on bottle</option>
-        <option value="spray_bottle">Spray bottle</option>
-      </select>
-    </label>
-    <br><br>
+      <div class="field">
+        Price: <input type="text" name="sample_price">
+      </div>
+    </div>
   </div>
 
-  <label>
-    Supplier:
-    <input type="text" name="sample_supplier">
-  </label>
-
-  <br><br>
-  <button type="submit">Submit</button>
+  <button type="submit" style="padding:10px 20px; margin-top:10px;">Submit</button>
 
 </form>
 
 <script>
-  function toggle(boxId, fieldId) {
-    document.getElementById(boxId).addEventListener('change', function () {
-      document.getElementById(fieldId).style.display =
-        this.checked ? 'block' : 'none';
+  // Show/hide fields when entry checkbox is checked
+  document.querySelectorAll('.enableEntry').forEach(function(checkbox){
+    checkbox.addEventListener('change', function(){
+      const target = document.getElementById(this.dataset.target);
+      target.style.display = this.checked ? 'block' : 'none';
     });
-  }
-
-  toggle('standardBox', 'standardFields');
-  toggle('miniBox', 'miniFields');
-  toggle('sampleBox', 'sampleFields');
+  });
 </script>
 
 </body>
