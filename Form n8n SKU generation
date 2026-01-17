@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<form method="POST" action="https://YOUR-N8N-WEBHOOK-URL">
+<form method="POST" action="http://localhost:5678/webhook-test/https://github.com/NatureCastleProg/n8n.git">
 
   <!-- ================= STANDARD ================= -->
 
