@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="POST" action="https://YOUR-N8N-WEBHOOK-URL">
+
+  <!-- ================= STANDARD ================= -->
+
+  <h3>Standard</h3>
+
+  <label>
+    <input type="checkbox" name="standard_enabled" value="true">
+    Use Standard
+  </label>
+  <br><br>
+
+  <label>
+    <input type="checkbox" id="standardBox" name="standard_hasPaperBox" value="true">
+    Has paper box
+  </label>
+  <br><br>
+
+  <div id="standardFields" style="display:none;">
+    <label>
+      Volume:
+      <input type="text" name="standard_volume">
+    </label>
+    <br><br>
+
+    <label>
+      Packaging:
+      <select name="standard_packaging">
+        <option value="">-- select --</option>
+        <option value="dropper_bottle">Dropper bottle</option>
+        <option value="cream_jar">Cream jar</option>
+        <option value="pump_bottle">Pump bottle</option>
+        <option value="airless_bottle">Airless bottle</option>
+        <option value="roll_on">Roll-on bottle</option>
+        <option value="spray_bottle">Spray bottle</option>
+      </select>
+    </label>
+    <br><br>
+  </div>
+
+  <label>
+    Supplier:
+    <input type="text" name="standard_supplier">
+  </label>
+
+  <hr>
+
+  <!-- ================= MINI ================= -->
+
+  <h3>Mini</h3>
+
+  <label>
+    <input type="checkbox" name="mini_enabled" value="true">
+    Use Mini
+  </label>
+  <br><br>
+
+  <label>
+    <input type="checkbox" id="miniBox" name="mini_hasPaperBox" value="true">
+    Has paper box
+  </label>
+  <br><br>
+
+  <div id="miniFields" style="display:none;">
+    <label>
+      Volume:
+      <input type="text" name="mini_volume">
+    </label>
+    <br><br>
+
+    <label>
+      Packaging:
+      <select name="mini_packaging">
+        <option value="">-- select --</option>
+        <option value="dropper_bottle">Dropper bottle</option>
+        <option value="cream_jar">Cream jar</option>
+        <option value="pump_bottle">Pump bottle</option>
+        <option value="airless_bottle">Airless bottle</option>
+        <option value="roll_on">Roll-on bottle</option>
+        <option value="spray_bottle">Spray bottle</option>
+      </select>
+    </label>
+    <br><br>
+  </div>
+
+  <label>
+    Supplier:
+    <input type="text" name="mini_supplier">
+  </label>
+
+  <hr>
+
+  <!-- ================= SAMPLE ================= -->
+
+  <h3>Sample</h3>
+
+  <label>
+    <input type="checkbox" name="sample_enabled" value="true">
+    Use Sample
+  </label>
+  <br><br>
+
+  <label>
+    <input type="checkbox" id="sampleBox" name="sample_hasPaperBox" value="true">
+    Has paper box
+  </label>
+  <br><br>
+
+  <div id="sampleFields" style="display:none;">
+    <label>
+      Volume:
+      <input type="text" name="sample_volume">
+    </label>
+    <br><br>
+
+    <label>
+      Packaging:
+      <select name="sample_packaging">
+        <option value="">-- select --</option>
+        <option value="dropper_bottle">Dropper bottle</option>
+        <option value="cream_jar">Cream jar</option>
+        <option value="pump_bottle">Pump bottle</option>
+        <option value="airless_bottle">Airless bottle</option>
+        <option value="roll_on">Roll-on bottle</option>
+        <option value="spray_bottle">Spray bottle</option>
+      </select>
+    </label>
+    <br><br>
+  </div>
+
+  <label>
+    Supplier:
+    <input type="text" name="sample_supplier">
+  </label>
+
+  <br><br>
+  <button type="submit">Submit</button>
+
+</form>
+
+<script>
+  function toggle(boxId, fieldId) {
+    document.getElementById(boxId).addEventListener('change', function () {
+      document.getElementById(fieldId).style.display =
+        this.checked ? 'block' : 'none';
+    });
+  }
+
+  toggle('standardBox', 'standardFields');
+  toggle('miniBox', 'miniFields');
+  toggle('sampleBox', 'sampleFields');
+</script>
+
+</body>
+</html>
