@@ -1,191 +1,591 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Cosmetic Packaging Form</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    max-width: 700px;
-    margin: 20px auto;
-    line-height: 1.5;
-  }
-  h3 {
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 5px;
-  }
-  .entry {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  .field {
-    margin: 5px 0;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKU Generator - NatureCastle</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      padding: 40px;
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    .size-section {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+    }
+    
+    .size-section.active {
+      border-color: #667eea;
+      background: #f0f4ff;
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .section-header h3 {
+      margin: 0 0 0 10px;
+      color: #333;
+      font-size: 20px;
+    }
+    
+    .toggle-checkbox {
+      width: 50px;
+      height: 26px;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .toggle-checkbox input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ccc;
+      border-radius: 13px;
+      transition: 0.3s;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    
+    .toggle-checkbox input:checked + .toggle-slider {
+      background: #667eea;
+    }
+    
+    .toggle-checkbox input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+    
+    .fields {
+      display: none;
+      margin-top: 15px;
+    }
+    
+    .fields.active {
+      display: block;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+    
+    label {
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border 0.3s;
+    }
+    
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    
+    .checkbox-group label {
+      margin: 0;
+      cursor: pointer;
+    }
+    
+    .price-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.2s;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    
+    .helper-text {
+      font-size: 12px;
+      color: #888;
+      margin-top: 5px;
+    }
+    
+    .status {
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 20px;
+      display: none;
+    }
+    
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
 </head>
 <body>
-
-<form method="POST" action="http://localhost:5678/webhook/packaging-form">
-
-  <!-- ===== STANDARD ===== -->
-  <div class="entry">
-    <h3>Standard</h3>
-    <div class="field">
-      <label>
-        <input type="checkbox" class="enableEntry" data-target="standardFields" name="standard_enabled" value="true">
-        Enable Standard
-      </label>
-    </div>
-
-    <div id="standardFields" style="display:none; margin-left:20px;">
-      <div class="field">
-        <label>
-          Has paper box: <input type="checkbox" name="standard_hasPaperBox" value="true">
-        </label>
+  <div class="container">
+    <h1>🧴 SKU Generator</h1>
+    <p class="subtitle">Create packaging configurations for your formulation</p>
+    
+    <form id="skuForm">
+      <!-- STANDARD SIZE -->
+      <div class="size-section" id="standardSection">
+        <div class="section-header">
+          <label class="toggle-checkbox">
+            <input type="checkbox" id="standard_enabled" name="standard_enabled">
+            <span class="toggle-slider"></span>
+          </label>
+          <h3>Standard Size (N)</h3>
+        </div>
+        
+        <div class="fields" id="standardFields">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="standard_volume">Volume *</label>
+              <input type="text" id="standard_volume" name="standard_volume" placeholder="e.g., 30ml">
+              <span class="helper-text">Include unit (ml, oz)</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="standard_packaging">Packaging Type *</label>
+              <select id="standard_packaging" name="standard_packaging">
+                <option value="">-- Select --</option>
+                <option value="1">Dropper bottle</option>
+                <option value="2">Cream jar</option>
+                <option value="3">Pump bottle</option>
+                <option value="4">Airless bottle</option>
+                <option value="5">Roll-on bottle</option>
+                <option value="6">Spray bottle</option>
+                <option value="7">Sample pouch</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="standard_supplier">Supplier *</label>
+              <select id="standard_supplier" name="standard_supplier">
+                <option value="">-- Select --</option>
+                <option value="Daisy">Daisy</option>
+                <option value="Yeesha">Yeesha</option>
+                <option value="Viola">Viola</option>
+                <option value="Hilda">Hilda</option>
+                <option value="Kiki">Kiki</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="standard_pp_price">Primary Price ($) *</label>
+              <input type="number" step="0.01" id="standard_pp_price" name="standard_pp_price" placeholder="0.45">
+            </div>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="standard_hasBox" name="standard_hasBox">
+            <label for="standard_hasBox">Include secondary packaging (box)</label>
+          </div>
+          
+          <div class="fields" id="standardBoxFields">
+            <div class="price-row">
+              <div class="form-group">
+                <label for="standard_sp_price">Box Price ($)</label>
+                <input type="number" step="0.01" id="standard_sp_price" name="standard_sp_price" placeholder="0.25">
+              </div>
+              <div class="form-group">
+                <label for="standard_pp_qty">PP Qty</label>
+                <input type="number" id="standard_pp_qty" name="standard_pp_qty" value="1">
+              </div>
+              <div class="form-group">
+                <label for="standard_sp_qty">SP Qty</label>
+                <input type="number" id="standard_sp_qty" name="standard_sp_qty" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="field">
-        Volume: <input type="text" name="standard_volume">
+      
+      <!-- MINI SIZE -->
+      <div class="size-section" id="miniSection">
+        <div class="section-header">
+          <label class="toggle-checkbox">
+            <input type="checkbox" id="mini_enabled" name="mini_enabled">
+            <span class="toggle-slider"></span>
+          </label>
+          <h3>Mini Size (M)</h3>
+        </div>
+        
+        <div class="fields" id="miniFields">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mini_volume">Volume *</label>
+              <input type="text" id="mini_volume" name="mini_volume" placeholder="e.g., 10ml">
+            </div>
+            
+            <div class="form-group">
+              <label for="mini_packaging">Packaging Type *</label>
+              <select id="mini_packaging" name="mini_packaging">
+                <option value="">-- Select --</option>
+                <option value="1">Dropper bottle</option>
+                <option value="2">Cream jar</option>
+                <option value="3">Pump bottle</option>
+                <option value="4">Airless bottle</option>
+                <option value="5">Roll-on bottle</option>
+                <option value="6">Spray bottle</option>
+                <option value="7">Sample pouch</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mini_supplier">Supplier *</label>
+              <select id="mini_supplier" name="mini_supplier">
+                <option value="">-- Select --</option>
+                <option value="Daisy">Daisy</option>
+                <option value="Yeesha">Yeesha</option>
+                <option value="Viola">Viola</option>
+                <option value="Hilda">Hilda</option>
+                <option value="Kiki">Kiki</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="mini_pp_price">Primary Price ($) *</label>
+              <input type="number" step="0.01" id="mini_pp_price" name="mini_pp_price" placeholder="0.40">
+            </div>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="mini_hasBox" name="mini_hasBox">
+            <label for="mini_hasBox">Include secondary packaging (box)</label>
+          </div>
+          
+          <div class="fields" id="miniBoxFields">
+            <div class="price-row">
+              <div class="form-group">
+                <label for="mini_sp_price">Box Price ($)</label>
+                <input type="number" step="0.01" id="mini_sp_price" name="mini_sp_price" placeholder="0.25">
+              </div>
+              <div class="form-group">
+                <label for="mini_pp_qty">PP Qty</label>
+                <input type="number" id="mini_pp_qty" name="mini_pp_qty" value="1">
+              </div>
+              <div class="form-group">
+                <label for="mini_sp_qty">SP Qty</label>
+                <input type="number" id="mini_sp_qty" name="mini_sp_qty" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="field">
-        Packaging:
-        <select name="standard_packaging">
-          <option value="">-- select --</option>
-          <option value="dropper_bottle">Dropper bottle</option>
-          <option value="pump_bottle">Pump bottle</option>
-          <option value="cream_jar">Cream jar</option>
-          <option value="spray_bottle">Spray bottle</option>
-          <option value="airless_pump">Airless pump</option>
-          <option value="airless_jar">Airless jar</option>
-          <option value="aluminium_pouch">Aluminium pouch</option>
-          <option value="lipstick">Lipstick</option>
-          <option value="eyeshadow">Eyeshadow</option>
-          <option value="ampule">Ampule</option>
-        </select>
+      
+      <!-- SAMPLE SIZE -->
+      <div class="size-section" id="sampleSection">
+        <div class="section-header">
+          <label class="toggle-checkbox">
+            <input type="checkbox" id="sample_enabled" name="sample_enabled">
+            <span class="toggle-slider"></span>
+          </label>
+          <h3>Sample Size (S)</h3>
+        </div>
+        
+        <div class="fields" id="sampleFields">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sample_volume">Volume *</label>
+              <input type="text" id="sample_volume" name="sample_volume" placeholder="e.g., 2ml">
+            </div>
+            
+            <div class="form-group">
+              <label for="sample_packaging">Packaging Type *</label>
+              <select id="sample_packaging" name="sample_packaging">
+                <option value="">-- Select --</option>
+                <option value="1">Dropper bottle</option>
+                <option value="2">Cream jar</option>
+                <option value="3">Pump bottle</option>
+                <option value="4">Airless bottle</option>
+                <option value="5">Roll-on bottle</option>
+                <option value="6">Spray bottle</option>
+                <option value="7">Sample pouch</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sample_supplier">Supplier *</label>
+              <select id="sample_supplier" name="sample_supplier">
+                <option value="">-- Select --</option>
+                <option value="Daisy">Daisy</option>
+                <option value="Yeesha">Yeesha</option>
+                <option value="Viola">Viola</option>
+                <option value="Hilda">Hilda</option>
+                <option value="Kiki">Kiki</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="sample_pp_price">Primary Price ($) *</label>
+              <input type="number" step="0.01" id="sample_pp_price" name="sample_pp_price" placeholder="0.20">
+            </div>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="sample_hasBox" name="sample_hasBox">
+            <label for="sample_hasBox">Include secondary packaging (box)</label>
+          </div>
+          
+          <div class="fields" id="sampleBoxFields">
+            <div class="price-row">
+              <div class="form-group">
+                <label for="sample_sp_price">Box Price ($)</label>
+                <input type="number" step="0.01" id="sample_sp_price" name="sample_sp_price" placeholder="0.25">
+              </div>
+              <div class="form-group">
+                <label for="sample_pp_qty">PP Qty</label>
+                <input type="number" id="sample_pp_qty" name="sample_pp_qty" value="1">
+              </div>
+              <div class="form-group">
+                <label for="sample_sp_qty">SP Qty</label>
+                <input type="number" id="sample_sp_qty" name="sample_sp_qty" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="field">
-        Supplier: <input type="text" name="standard_supplier">
-      </div>
-
-      <div class="field">
-        Price: <input type="text" name="standard_price">
-      </div>
-    </div>
+      
+      <button type="submit" class="submit-btn">Generate SKUs</button>
+      
+      <div id="status" class="status"></div>
+    </form>
   </div>
 
-  <!-- ===== MINI ===== -->
-  <div class="entry">
-    <h3>Mini</h3>
-    <div class="field">
-      <label>
-        <input type="checkbox" class="enableEntry" data-target="miniFields" name="mini_enabled" value="true">
-        Enable Mini
-      </label>
-    </div>
-
-    <div id="miniFields" style="display:none; margin-left:20px;">
-      <div class="field">
-        <label>
-          Has paper box: <input type="checkbox" name="mini_hasPaperBox" value="true">
-        </label>
-      </div>
-
-      <div class="field">
-        Volume: <input type="text" name="mini_volume">
-      </div>
-
-      <div class="field">
-        Packaging:
-        <select name="mini_packaging">
-          <option value="">-- select --</option>
-          <option value="dropper_bottle">Dropper bottle</option>
-          <option value="pump_bottle">Pump bottle</option>
-          <option value="cream_jar">Cream jar</option>
-          <option value="spray_bottle">Spray bottle</option>
-          <option value="airless_pump">Airless pump</option>
-          <option value="airless_jar">Airless jar</option>
-          <option value="aluminium_pouch">Aluminium pouch</option>
-          <option value="lipstick">Lipstick</option>
-          <option value="eyeshadow">Eyeshadow</option>
-          <option value="ampule">Ampule</option>
-        </select>
-      </div>
-
-      <div class="field">
-        Supplier: <input type="text" name="mini_supplier">
-      </div>
-
-      <div class="field">
-        Price: <input type="text" name="mini_price">
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SAMPLE ===== -->
-  <div class="entry">
-    <h3>Sample</h3>
-    <div class="field">
-      <label>
-        <input type="checkbox" class="enableEntry" data-target="sampleFields" name="sample_enabled" value="true">
-        Enable Sample
-      </label>
-    </div>
-
-    <div id="sampleFields" style="display:none; margin-left:20px;">
-      <div class="field">
-        <label>
-          Has paper box: <input type="checkbox" name="sample_hasPaperBox" value="true">
-        </label>
-      </div>
-
-      <div class="field">
-        Volume: <input type="text" name="sample_volume">
-      </div>
-
-      <div class="field">
-        Packaging:
-        <select name="sample_packaging">
-          <option value="">-- select --</option>
-          <option value="dropper_bottle">Dropper bottle</option>
-          <option value="pump_bottle">Pump bottle</option>
-          <option value="cream_jar">Cream jar</option>
-          <option value="spray_bottle">Spray bottle</option>
-          <option value="airless_pump">Airless pump</option>
-          <option value="airless_jar">Airless jar</option>
-          <option value="aluminium_pouch">Aluminium pouch</option>
-          <option value="lipstick">Lipstick</option>
-          <option value="eyeshadow">Eyeshadow</option>
-          <option value="ampule">Ampule</option>
-        </select>
-      </div>
-
-      <div class="field">
-        Supplier: <input type="text" name="sample_supplier">
-      </div>
-
-      <div class="field">
-        Price: <input type="text" name="sample_price">
-      </div>
-    </div>
-  </div>
-
-  <button type="submit" style="padding:10px 20px; margin-top:10px;">Submit</button>
-
-</form>
-
-<script>
-  // Show/hide fields when entry checkbox is checked
-  document.querySelectorAll('.enableEntry').forEach(function(checkbox){
-    checkbox.addEventListener('change', function(){
-      const target = document.getElementById(this.dataset.target);
-      target.style.display = this.checked ? 'block' : 'none';
+  <script>
+    // Toggle section visibility
+    function setupToggle(enabledId, fieldsId, sectionId) {
+      const checkbox = document.getElementById(enabledId);
+      const fields = document.getElementById(fieldsId);
+      const section = document.getElementById(sectionId);
+      
+      checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          fields.classList.add('active');
+          section.classList.add('active');
+        } else {
+          fields.classList.remove('active');
+          section.classList.remove('active');
+        }
+      });
+    }
+    
+    // Toggle box fields
+    function setupBoxToggle(hasBoxId, boxFieldsId) {
+      const checkbox = document.getElementById(hasBoxId);
+      const boxFields = document.getElementById(boxFieldsId);
+      
+      checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          boxFields.classList.add('active');
+        } else {
+          boxFields.classList.remove('active');
+        }
+      });
+    }
+    
+    // Setup all toggles
+    setupToggle('standard_enabled', 'standardFields', 'standardSection');
+    setupToggle('mini_enabled', 'miniFields', 'miniSection');
+    setupToggle('sample_enabled', 'sampleFields', 'sampleSection');
+    
+    setupBoxToggle('standard_hasBox', 'standardBoxFields');
+    setupBoxToggle('mini_hasBox', 'miniBoxFields');
+    setupBoxToggle('sample_hasBox', 'sampleBoxFields');
+    
+    // Form submission
+    document.getElementById('skuForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = {};
+      
+      // Convert FormData to object
+      for (let [key, value] of formData.entries()) {
+        data[key] = value;
+      }
+      
+      // Convert to SKU format (N, 30ml, Y, 1, Daisy, 0.45, 0.25, 1, 1)
+      const lines = [];
+      
+      const sizes = ['standard', 'mini', 'sample'];
+      const sizeCodes = { 'standard': 'N', 'mini': 'M', 'sample': 'S' };
+      
+      for (const size of sizes) {
+        if (data[`${size}_enabled`]) {
+          const volume = data[`${size}_volume`] || '';
+          const hasBox = data[`${size}_hasBox`] ? 'Y' : 'N';
+          const packaging = data[`${size}_packaging`] || '';
+          const supplier = data[`${size}_supplier`] || '';
+          const ppPrice = data[`${size}_pp_price`] || '';
+          const spPrice = data[`${size}_sp_price`] || '';
+          const ppQty = data[`${size}_pp_qty`] || '1';
+          const spQty = data[`${size}_sp_qty`] || '1';
+          
+          let line = `${sizeCodes[size]}, ${volume}, ${hasBox}, ${packaging}, ${supplier}, ${ppPrice}`;
+          
+          if (hasBox === 'Y') {
+            line += `, ${spPrice}, ${ppQty}, ${spQty}`;
+          } else {
+            line += `, , ${ppQty}`;
+          }
+          
+          lines.push(line);
+        }
+      }
+      
+      const chatInput = lines.join('\n');
+      
+      // Send to webhook
+      const status = document.getElementById('status');
+      status.style.display = 'block';
+      status.className = 'status';
+      status.textContent = 'Sending to n8n...';
+      
+      try {
+        // REPLACE THIS URL WITH YOUR ACTUAL WEBHOOK URL
+        const webhookUrl = 'http://localhost:5678/webhook-test/sku-generator';
+        
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ chatInput })
+        });
+        
+        if (response.ok) {
+          status.className = 'status success';
+          status.textContent = '✅ SKUs generated successfully!';
+          setTimeout(() => {
+            this.reset();
+            document.querySelectorAll('.size-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.fields').forEach(f => f.classList.remove('active'));
+          }, 2000);
+        } else {
+          throw new Error('Server error');
+        }
+      } catch (error) {
+        status.className = 'status error';
+        status.textContent = '❌ Error: ' + error.message;
+      }
     });
-  });
-</script>
-
+  </script>
 </body>
 </html>
